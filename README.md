@@ -2,6 +2,10 @@
 
 This repository contains the code and data preparation pipeline for our bachelor thesis project on hybrid ESG sentiment analysis in corporate sustainability reports.
 
+## 📊 Pipeline Flowchart
+
+![Hybrid ESG Pipeline](images/Flowchart.jpeg)
+
 ## Repository Structure
 ```
 ├── data/
