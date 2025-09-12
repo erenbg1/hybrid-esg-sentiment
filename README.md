@@ -94,7 +94,7 @@ Key evaluation charts:
 
 ---
 
-## 📌 Next Steps
+## 📌 Future Work
 - Expand dataset with more companies/reports.  
 - Refine ESG-specific lexicons.  
 - Introduce weighting strategies in hybrid fusion.  
