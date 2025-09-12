@@ -29,16 +29,26 @@ The goal is to enhance interpretability and accuracy in analyzing corporate sust
 ## Baseline Analysis Results
 
 ### Overall Sentiment Distribution
-![Overall](images/baseline_overall.png)
+![Overall](images/baseline_overall.png)  
+*Shows the global distribution of positive vs negative labels across the entire corpus.*
 
 ### Sentiment by Company
-![Company](images/baseline_company.png)
+![Company](images/baseline_company.png)  
+*Highlights sentiment distribution per company (Google, HSBC, Nestlé). Useful for comparing reporting styles.*
 
 ### Sentiment by Year
-![Year](images/baseline_year.png)
+![Year](images/baseline_year.png)  
+*Shows sentiment distribution over time (2022–2024). Useful for observing potential temporal trends.*
 
 ## Flowchart
-![Flowchart](images/Flowchart.jpeg)
+![Flowchart](images/Flowchart.jpeg)  
+*Overall pipeline design, from extraction and preprocessing to baseline modeling, snippets, and hybrid evaluation.*
+
+## Limitations
+- **Positive bias in baseline model:** DistilBERT SST-2 tends to classify most sentences as positive, lacking ESG-specific nuance.  
+- **Long sentence handling:** Sequences over 512 tokens require chunking; while implemented, it may still split context.  
+- **Dataset size:** The corpus currently consists of 9 sustainability reports (Google, HSBC, Nestlé, 2022–2024). Larger datasets could improve robustness.  
+- **Domain adaptation:** Transformer baseline was not fine-tuned on ESG data, limiting its ability to detect subtle risk or neutral language.  
 
 ## Requirements
 See `requirements.txt` for dependencies.  
