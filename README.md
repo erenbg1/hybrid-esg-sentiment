@@ -1,61 +1,107 @@
+
 # Hybrid ESG Sentiment Analysis in Corporate Sustainability Reports
-Integrating Transformers with Snippet-Based Lexicon Features
 
-## Overview
-This project explores hybrid ESG sentiment analysis by combining transformer-based models (DistilBERT) with snippet-based lexicon features.  
-The goal is to enhance interpretability and accuracy in analyzing corporate sustainability reports (Google, HSBC, Nestlé).
+This project implements a **Hybrid NLP Approach** for sentiment analysis in ESG (Environmental, Social, Governance) corporate sustainability reports. It combines **transformer-based models (BERT/DistilBERT)** with **snippet-level lexicon features** to improve sentiment detection in domain-specific contexts.
 
-## Project Structure
-- `data/raw_reports/` → Extracted raw text files from PDF reports  
-- `data/cleaned_v2/` → Cleaned and normalized text data  
-- `data/processed/` → Processed outputs (e.g., baseline predictions CSV)  
-- `notebooks/` → Jupyter notebooks for each stage  
-- `images/` → Flowcharts and visualizations  
+---
 
-## Current Progress
-- ✅ Data extraction (9 sustainability reports → TXT)  
-- ✅ Cleaning (deep cleaning of headers, footers, TOCs, page numbers)  
-- ✅ Corpus creation (structured JSONL with company + year metadata)  
-- ✅ Preprocessing (stopword removal, lemmatization)  
-- ✅ DistilBERT baseline inference (sentence-level sentiment analysis, chunking for long sequences)  
-- ✅ Baseline analysis (overall, company-level, year-level distributions)  
-- ✅ Baseline predictions CSV (`data/processed/distilbert_baseline.csv`) available  
-
-### Next Steps
-- 🚧 Snippet and lexicon integration (ESG lexicons, negation & intensifier handling)  
-- 🚧 Hybrid model fusion (combine transformer outputs with snippet features)  
-- 🚧 Evaluation (distributional analysis, inter-model agreement)  
-
-## Baseline Analysis Results
-
-### Overall Sentiment Distribution
-![Overall](images/baseline_overall.png)  
-*Shows the global distribution of positive vs negative labels across the entire corpus.*
-
-### Sentiment by Company
-![Company](images/baseline_company.png)  
-*Highlights sentiment distribution per company (Google, HSBC, Nestlé). Useful for comparing reporting styles.*
-
-### Sentiment by Year
-![Year](images/baseline_year.png)  
-*Shows sentiment distribution over time (2022–2024). Useful for observing potential temporal trends.*
-
-## Flowchart
-![Flowchart](images/Flowchart.jpeg)  
-*Overall pipeline design, from extraction and preprocessing to baseline modeling, snippets, and hybrid evaluation.*
-
-## Limitations
-- **Positive bias in baseline model:** DistilBERT SST-2 tends to classify most sentences as positive, lacking ESG-specific nuance.  
-- **Long sentence handling:** Sequences over 512 tokens require chunking; while implemented, it may still split context.  
-- **Dataset size:** The corpus currently consists of 9 sustainability reports (Google, HSBC, Nestlé, 2022–2024). Larger datasets could improve robustness.  
-- **Domain adaptation:** Transformer baseline was not fine-tuned on ESG data, limiting its ability to detect subtle risk or neutral language.  
-
-## Requirements
-See `requirements.txt` for dependencies.  
-Install with:  
-```bash
-pip install -r requirements.txt
+## 📂 Repository Structure
+```
+├── data/
+│   ├── raw_reports/          # Extracted raw TXT files from company PDFs
+│   ├── cleaned_v2/           # Deep cleaned text and corpus files
+│   ├── processed/            # Baseline, snippet, and hybrid sentiment outputs
+├── notebooks/
+│   ├── 01_data_cleaning_and_corpus.ipynb
+│   ├── 02_preprocessing.ipynb
+│   ├── 03_baseline_distilbert.ipynb
+│   ├── 03a_baseline_analysis.ipynb
+│   ├── 04_snippet_lexicons.ipynb
+│   ├── 05_hybrid_fusion.ipynb
+│   ├── 06_evaluation.ipynb
+├── images/                   # Flowchart & evaluation visualizations
+├── README.md
+├── requirements.txt
+├── LICENSE
 ```
 
-## License
-MIT License
+---
+
+## 🚀 Methodology Overview
+
+### 1. Data Source & Extraction
+- Corporate sustainability reports (Google, HSBC, Nestlé, 2022–2024).  
+- Extracted into TXT format using **PDFPlumber**.
+
+### 2. Preprocessing
+- Cleaning: removed headers, footers, page numbers, ToC.  
+- Tokenization, normalization, stopword removal, lemmatization.  
+- Dual corpus design:
+  - Sentence-level corpus (for transformers, no lemmatization).  
+  - Lemmatized corpus (for lexicon/snippet analysis).  
+
+### 3. Baseline Modeling
+- Transformer-based sentiment (DistilBERT).  
+- **Notebook:** `03_baseline_distilbert.ipynb`  
+- Output saved in `data/processed/distilbert_baseline.csv`.
+
+### 4. Baseline Analysis
+- Visualized overall sentiment distribution and breakdown by company/year.  
+- **Notebook:** `03a_baseline_analysis.ipynb`  
+- Example:  
+  ![Sentiment Distribution](images/baseline_overall.png)
+
+### 5. Snippet Lexicon Analysis
+- Custom ESG lexicons, negation handling, and intensifier detection.  
+- Scores aggregated at document/company level.  
+- **Notebook:** `04_snippet_lexicons.ipynb`  
+
+### 6. Hybrid Fusion
+- Combined transformer predictions with snippet scores.  
+- Produced **hybrid ESG sentiment score** for each company/year.  
+- **Notebook:** `05_hybrid_fusion.ipynb`  
+
+### 7. Evaluation
+- Compared BERT, snippet, and hybrid results.  
+- Metrics: distribution patterns, inter-model agreement.  
+- **Notebook:** `06_evaluation.ipynb`  
+
+Key evaluation charts:  
+- Sentiment distribution (BERT):  
+  ![BERT Distribution](images/eval_bert_distribution.png)  
+- Average scores per company:  
+  ![Company Means](images/eval_company_means.png)  
+- Document-level comparison:  
+  ![Doc Comparison](images/eval_doc_comparison.png)  
+- Average scores per year:  
+  ![Year Means](images/eval_year_means.png)  
+
+---
+
+## 📊 Current Outputs
+- **DistilBERT baseline sentiment predictions** (`distilbert_baseline.csv`)  
+- **Snippet lexicon scores** (`snippet_scores.csv`)  
+- **Hybrid fusion scores** (`hybrid_scores.csv`)  
+- **Evaluation plots** (see `images/` folder)  
+
+---
+
+## ⚠️ Limitations
+- **Bias in transformer models**: pretrained on general-domain corpora, not ESG-specific.  
+- **Long sentence handling**: BERT requires chunking for >512 tokens.  
+- **Dataset size**: limited to 9 reports (3 companies × 3 years). Expanding improves generalizability.  
+- **Lexicon coverage**: ESG dictionaries may miss novel or company-specific terminology.  
+
+---
+
+## 📌 Next Steps
+- Expand dataset with more companies/reports.  
+- Refine ESG-specific lexicons.  
+- Introduce weighting strategies in hybrid fusion.  
+- Explore evaluation with weak supervision / expert validation.  
+
+---
+
+## ⚖️ License
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
