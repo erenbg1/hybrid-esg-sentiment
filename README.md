@@ -1,107 +1,114 @@
+# Hybrid ESG Sentiment Analysis
 
-# Hybrid ESG Sentiment Analysis in Corporate Sustainability Reports
+This repository contains the full pipeline, code, processed data, and evaluation results for the Bachelor's thesis project **Hybrid ESG Sentiment Analysis**.
 
-This project implements a **Hybrid NLP Approach** for sentiment analysis in ESG (Environmental, Social, Governance) corporate sustainability reports. It combines **transformer-based models (BERT/DistilBERT)** with **snippet-level lexicon features** to improve sentiment detection in domain-specific contexts.
+The thesis investigates sentiment bias in ESG (Environmental, Social, and Governance) reports by combining transformer-based NLP models (DistilBERT) with ESG-specific lexicon methods in a hybrid approach. The goal is to mitigate positive sentiment bias and provide more reliable, granular, and interpretable sentiment analysis results.
+
+---
+
+## 📌 Pipeline Overview
+
+The analysis pipeline consists of six main stages, implemented in separate Jupyter notebooks:
+
+1. **02_preprocessing.ipynb**  
+   - Cleaning and tokenization of ESG report corpus.  
+   - Stopword removal, error inspection, and corpus representation.  
+
+2. **03_baseline_distilbert.ipynb**  
+   - Sentence-level sentiment classification using DistilBERT.  
+   - Mapping predictions into **5-class sentiment categories**:  
+     - Very Positive, Positive, Neutral, Negative, Very Negative.  
+
+3. **03a_baseline_analysis.ipynb**  
+   - Distributional analysis of baseline (DistilBERT) predictions.  
+   - Visualization of sentence-level sentiment distributions.  
+
+4. **04_snippet_lexicons.ipynb**  
+   - ESG-specific lexicon method applied at snippet/document level.  
+   - Mapping to the same 5-class sentiment categories.  
+
+5. **05_hybrid_fusion.ipynb**  
+   - Fusion of DistilBERT baseline scores with lexicon scores.  
+   - Weighted strategy (70% baseline, 30% lexicon).  
+   - Mapping to 5-class sentiment categories using dynamic thresholds.  
+
+6. **06_evaluation.ipynb**  
+   - Comparison of baseline, snippet, and hybrid results.  
+   - Distributional, company-level, and year-level visualizations.  
+   - Error inspection of sample sentences.  
+
+---
+
+## 📊 Key Features
+
+- **5-class sentiment mapping** for granularity: Very Positive, Positive, Neutral, Negative, Very Negative.  
+- **Color consistency** across all charts:  
+  - Positive = green, Very Positive = green  
+  - Neutral = gray  
+  - Negative = red, Very Negative = red  
+- **Granularity**: Baseline often biased towards positive, Hybrid balances distributions.  
+- **Exported visualizations** in `images/` folder:  
+  - `eval_baseline_distribution.png`  
+  - `eval_doc_comparison_5class.png`  
+  - `eval_company_means.png`  
+  - `eval_year_means.png`  
+  - etc.
 
 ---
 
 ## 📂 Repository Structure
+
 ```
 ├── data/
-│   ├── raw_reports/          # Extracted raw TXT files from company PDFs
-│   ├── cleaned_v2/           # Deep cleaned text and corpus files
-│   ├── processed/            # Baseline, snippet, and hybrid sentiment outputs
+│   └── processed/
+│       ├── distilbert_baseline_5class.csv
+│       ├── snippet_scores_5class.csv
+│       ├── hybrid_scores_5class.csv
+├── images/
+│   ├── eval_baseline_distribution.png
+│   ├── eval_doc_comparison_5class.png
+│   ├── eval_company_means.png
+│   ├── eval_year_means.png
+│   └── ...
 ├── notebooks/
-│   ├── 01_data_cleaning_and_corpus.ipynb
 │   ├── 02_preprocessing.ipynb
 │   ├── 03_baseline_distilbert.ipynb
 │   ├── 03a_baseline_analysis.ipynb
 │   ├── 04_snippet_lexicons.ipynb
 │   ├── 05_hybrid_fusion.ipynb
-│   ├── 06_evaluation.ipynb
-├── images/                   # Flowchart & evaluation visualizations
-├── README.md
-├── requirements.txt
-├── LICENSE
+│   └── 06_evaluation.ipynb
+└── README.md
 ```
 
 ---
 
-## 🚀 Methodology Overview
+## 🚀 How to Reproduce
 
-### 1. Data Source & Extraction
-- Corporate sustainability reports (Google, HSBC, Nestlé, 2022–2024).  
-- Extracted into TXT format using **PDFPlumber**.
+1. Clone this repository:  
+   ```bash
+   git clone https://github.com/erenbg1/hybrid-esg-sentiment.git
+   cd hybrid-esg-sentiment
+   ```
 
-### 2. Preprocessing
-- Cleaning: removed headers, footers, page numbers, ToC.  
-- Tokenization, normalization, stopword removal, lemmatization.  
-- Dual corpus design:
-  - Sentence-level corpus (for transformers, no lemmatization).  
-  - Lemmatized corpus (for lexicon/snippet analysis).  
+2. Install requirements (Python 3.9+):  
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 3. Baseline Modeling
-- Transformer-based sentiment (DistilBERT).  
-- **Notebook:** `03_baseline_distilbert.ipynb`  
-- Output saved in `data/processed/distilbert_baseline.csv`.
-
-### 4. Baseline Analysis
-- Visualized overall sentiment distribution and breakdown by company/year.  
-- **Notebook:** `03a_baseline_analysis.ipynb`  
-- Example:  
-  ![Sentiment Distribution](images/baseline_overall.png)
-
-### 5. Snippet Lexicon Analysis
-- Custom ESG lexicons, negation handling, and intensifier detection.  
-- Scores aggregated at document/company level.  
-- **Notebook:** `04_snippet_lexicons.ipynb`  
-
-### 6. Hybrid Fusion
-- Combined transformer predictions with snippet scores.  
-- Produced **hybrid ESG sentiment score** for each company/year.  
-- **Notebook:** `05_hybrid_fusion.ipynb`  
-
-### 7. Evaluation
-- Compared BERT, snippet, and hybrid results.  
-- Metrics: distribution patterns, inter-model agreement.  
-- **Notebook:** `06_evaluation.ipynb`  
-
-Key evaluation charts:  
-- Sentiment distribution (BERT):  
-  ![BERT Distribution](images/eval_bert_distribution.png)  
-- Average scores per company:  
-  ![Company Means](images/eval_company_means.png)  
-- Document-level comparison:  
-  ![Doc Comparison](images/eval_doc_comparison.png)  
-- Average scores per year:  
-  ![Year Means](images/eval_year_means.png)  
+3. Run the notebooks in order:  
+   - `02_preprocessing.ipynb` → `06_evaluation.ipynb`
 
 ---
 
-## 📊 Current Outputs
-- **DistilBERT baseline sentiment predictions** (`distilbert_baseline.csv`)  
-- **Snippet lexicon scores** (`snippet_scores.csv`)  
-- **Hybrid fusion scores** (`hybrid_scores.csv`)  
-- **Evaluation plots** (see `images/` folder)  
+## 📌 Thesis Context
+
+This project was developed as part of a Bachelor's thesis to explore **positive sentiment bias in ESG reporting** and to test whether a **hybrid NLP approach** (transformers + lexicons) can improve reliability and interpretability of sentiment analysis in sustainability disclosures.
+
+The results show that while transformer-based models like DistilBERT tend to repeat the overly positive bias of ESG reports, the hybrid method provides more balanced and granular sentiment distributions.
 
 ---
 
-## ⚠️ Limitations
-- **Bias in transformer models**: pretrained on general-domain corpora, not ESG-specific.  
-- **Long sentence handling**: BERT requires chunking for >512 tokens.  
-- **Dataset size**: limited to 9 reports (3 companies × 3 years). Expanding improves generalizability.  
-- **Lexicon coverage**: ESG dictionaries may miss novel or company-specific terminology.  
-
----
-
-## 📌 Future Work
-- Expand dataset with more companies/reports.  
-- Refine ESG-specific lexicons.  
-- Introduce weighting strategies in hybrid fusion.  
-- Explore evaluation with weak supervision / expert validation.  
-
----
-
-## ⚖️ License
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
+## 👤 Author
+**Eren Burak Gökpınar**  
+Bachelor’s Thesis Project – GISMA Business School, Berlin  
+2025
