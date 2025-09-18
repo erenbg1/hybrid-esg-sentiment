@@ -6,7 +6,7 @@ The thesis investigates sentiment bias in ESG (Environmental, Social, and Govern
 
 ---
 
-## 📌 Pipeline Overview
+## 📌 Pipeline Overview (Methodology)
 
 The analysis pipeline consists of six main stages, implemented in separate Jupyter notebooks:
 
@@ -36,6 +36,17 @@ The analysis pipeline consists of six main stages, implemented in separate Jupyt
    - Comparison of baseline, snippet, and hybrid results.  
    - Distributional, company-level, and year-level visualizations.  
    - Error inspection of sample sentences.  
+
+---
+
+## 📖 Literature Background
+
+Previous research has highlighted the limitations of ESG reporting:  
+- ESG disclosures often **emphasize achievements while underreporting challenges**, resulting in **positive sentiment bias**.  
+- **Fan et al. (2022)**: proposed integrating sentiment lexicons with transformer-based models to improve interpretability.  
+- **Guo et al. (2023)**: introduced distributional analysis as a method for evaluating sentiment models without ground truth.  
+
+This thesis builds upon these works by combining transformer-based classification with ESG-specific lexicons, offering a more balanced analysis of sustainability reports.
 
 ---
 
@@ -97,6 +108,17 @@ The analysis pipeline consists of six main stages, implemented in separate Jupyt
 
 3. Run the notebooks in order:  
    - `02_preprocessing.ipynb` → `06_evaluation.ipynb`
+
+---
+
+## 🔮 Future Work
+
+This thesis represents an initial attempt to mitigate sentiment bias in ESG reporting with a hybrid NLP approach. Possible extensions include:  
+- Fine-tuning transformer models on ESG-specific corpora.  
+- Expanding the dataset to include more companies and years.  
+- Integrating linguistic features such as irony, exaggeration, or context-specific intensifiers.  
+- Cross-lingual experiments on ESG reports in different languages.  
+- Comparative studies with alternative hybrid weighting strategies.  
 
 ---
 
