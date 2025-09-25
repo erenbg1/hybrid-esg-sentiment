@@ -84,3 +84,4 @@ The hybrid approach shows potential for balancing transformer bias while maintai
 **Eren Burak Gökpınar**  
 Bachelor's Thesis Project – GISMA Business School, Berlin  
 2025 
+
