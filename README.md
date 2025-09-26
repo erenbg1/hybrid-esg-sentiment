@@ -97,6 +97,8 @@ data/raw_reports/
 
 Use the same filenames referenced in the notebooks.
 
+Instead of that, you can directly start with (`003_baseline_distilbert.ipynb`) since the datasets already preprocessed.
+
 ---
 
 ## Results Summary
