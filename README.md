@@ -10,6 +10,7 @@ The thesis investigates sentiment bias in ESG (Environmental, Social, and Govern
 
 The analysis pipeline consists of six main stages, implemented in separate Jupyter notebooks:
 
+- **01_data_cleaning_and_corpus.ipynb**: Collecting, cleaning and organizing ESG report corpus
 - **02_preprocessing.ipynb**: Cleaning and tokenization of ESG report corpus, stopword removal, error inspection
 - **03_baseline_distilbert.ipynb**: Sentence-level sentiment classification using DistilBERT, mapping to 5-class categories
 - **03a_baseline_analysis.ipynb**: Distributional analysis of baseline predictions and visualizations
@@ -39,14 +40,18 @@ The hybrid methodology adapts these concepts specifically for ESG bias detection
 ├── data/processed/
 │   ├── distilbert_baseline_5class.csv
 │   ├── snippet_scores_5class.csv
-│   └── hybrid_scores_5class.csv
+│   ├── hybrid_scores_5class.csv
+│   ├── lexicon_5class_sentencelevel.csv
+│   └── hybrid_5class_sentencelevel.csv
 ├── images/
 │   ├── eval_baseline_distribution.png
 │   ├── eval_company_means.png
 │   └── eval_year_means.png
 ├── notebooks/
+│   ├── 01_data_cleaning_and_corpus.ipynb
 │   ├── 02_preprocessing.ipynb
 │   ├── 03_baseline_distilbert.ipynb
+│   ├── 03a_baseline_analysis.ipynb
 │   ├── 04_snippet_lexicons.ipynb
 │   ├── 05_hybrid_fusion.ipynb
 │   └── 06_evaluation.ipynb
@@ -61,12 +66,38 @@ The hybrid methodology adapts these concepts specifically for ESG bias detection
    cd hybrid-esg-sentiment
    ```
 
-2. Install requirements (Python 3.9+):
+2. Create virtual environment with Python 3.11:
+   ```bash
+   python3.11 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. Install requirements:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Run notebooks in order: `02_preprocessing.ipynb` → `06_evaluation.ipynb`
+4. Download the spaCy language model:
+   ```bash
+   python -m spacy download en_core_web_sm --direct
+   ```
+
+5. Run notebooks in order: `01_data_cleaning_and_corpus.ipynb` → `06_evaluation.ipynb`
+
+---
+
+⚠️ **Important Note on Data Availability**
+
+The original ESG PDF reports (Google, Nestlé, HSBC) are **not included** in this repository due to licensing restrictions and file size.  
+If you wish to fully reproduce the preprocessing step (`01_data_cleaning_and_corpus.ipynb`), you need to manually download the ESG reports and place them in:
+
+```
+data/raw_reports/
+```
+
+Use the same filenames referenced in the notebooks.
+
+---
 
 ## Results Summary
 
@@ -83,5 +114,4 @@ The hybrid approach shows potential for balancing transformer bias while maintai
 
 **Eren Burak Gökpınar**  
 Bachelor's Thesis Project – GISMA Business School, Berlin  
-2025 
-
+2025
